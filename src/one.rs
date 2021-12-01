@@ -45,21 +45,44 @@ pub fn sonar_sweep_part_one(report: Vec<i32>) -> i32 {
   count
 }
 
-// TODO(o-90): part two
-// pub fn sonar_sweep_part_two() {}
+pub fn sonar_sweep_part_two(report: Vec<i32>) -> i32 {
+  let mut current_sum = 0;
+  let mut count = 0;
+  for reports in report.iter().take(3) {
+    current_sum += reports;
+  }
+  for i in 0..(report.len() - 3) {
+    let next_sum = current_sum - report[i] + report[i + 3];
+    if current_sum < next_sum {
+      count += 1;
+    }
+    current_sum = next_sum;
+  }
+  count
+}
 
 #[cfg(test)]
 mod tests {
   use super::*;
   use crate::utils::read_file;
   #[test]
-  fn test_case_example() {
+  fn test_case_example_part_one() {
     let v = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
     assert_eq!(sonar_sweep_part_one(v), 7);
   }
   #[test]
-  fn test_case_actual() {
-    let v = read_file("src/one_test_cases.in").unwrap();
+  fn test_case_actual_part_one() {
+    let v = read_file("src/test_cases_one.in").unwrap();
     assert_eq!(sonar_sweep_part_one(v), 1754);
+  }
+  #[test]
+  fn test_case_example_part_two() {
+    let v = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
+    assert_eq!(sonar_sweep_part_two(v), 5);
+  }
+  #[test]
+  fn test_case_actual_part_two() {
+    let v = read_file("src/test_cases_one.in").unwrap();
+    assert_eq!(sonar_sweep_part_two(v), 1789);
   }
 }

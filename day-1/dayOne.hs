@@ -8,11 +8,10 @@ findDepth depths = sum [1 | (x, y) <- zip depths (tail depths), x < y]
 
 -- part two
 window :: Int -> [Int] -> [[Int]]
-window size ls =
-  case ls of
-  []   -> []
-  x:xs -> if length ls >= size then take size ls : window size xs
-          else window size xs
+window _ [] = []
+window size ls@(x:xs)
+  | length ls >= size = take size ls : window size xs
+  | otherwise         = window size xs
 
 findDepth' :: [[Int]] -> Int
 findDepth' depths = sum [1 | (x, y) <- zip depths (tail depths), sum x < sum y]

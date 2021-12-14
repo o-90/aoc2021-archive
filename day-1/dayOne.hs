@@ -9,7 +9,7 @@ findDepth depths = sum [1 | (x, y) <- zip depths (tail depths), x < y]
 -- part two
 window :: Int -> [Int] -> [[Int]]
 window _ [] = []
-window size ls@(x:xs)
+window size ls@(_:xs)
   | length ls >= size = take size ls : window size xs
   | otherwise         = window size xs
 

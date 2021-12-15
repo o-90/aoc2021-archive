@@ -3,7 +3,7 @@ SHELL := /bin/bash
 GHC := ghc
 GHC_FLAGS := -O1
 BIN := run
-SRC := dayOne.hs
+SRC := DayOne.hs
 
 build:
 	$(GHC) $(GHC_FLAGS) -o $(BIN) $(SRC)

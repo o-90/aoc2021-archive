@@ -11,9 +11,9 @@ commands xs = go xs (0, 0)
   where go [] acc = acc
         go (x:xs) acc
           | fst x == "forward" = go xs (fst acc + snd x, snd acc)
-          | fst x == "down" = go xs (fst acc, snd acc + snd x)
-          | fst x == "up" = go xs (fst acc, snd acc - snd x)
-          | otherwise = go xs acc
+          | fst x == "down"    = go xs (fst acc, snd acc + snd x)
+          | fst x == "up"      = go xs (fst acc, snd acc - snd x)
+          | otherwise          = go xs acc
 
 tuple2List :: Num a => (a, a) -> [a]
 tuple2List (x, y) = [x, y]
@@ -25,10 +25,10 @@ main :: IO ()
 main = do
   [fname] <- getArgs
   text <- readFile fname
-  let ans = map ((\ [x, y] -> (x, read y :: Int)) . words) $ lines text
-  let out = product . tuple2List . commands $ ans
+  let cmds = map ((\ [x, y] -> (x, read y :: Int)) . words) $ lines text
 
   -- compute part one
+  let out = product . tuple2List . commands $ cmds
   print out
 
   -- compute part two

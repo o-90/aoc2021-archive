@@ -19,7 +19,16 @@ tuple2List :: Num a => (a, a) -> [a]
 tuple2List (x, y) = [x, y]
 
 -- part two
--- TODO(o-90)
+type Aim = [Int]
+
+commands' :: Cmd -> Aim
+commands' xs = go xs [0, 0, 0]
+  where go [] acc = acc
+        go (x:xs) acc
+          | fst x == "down"    = go xs [head acc, acc !! 1, snd x + acc !! 2]
+          | fst x == "up"      = go xs [head acc, acc !! 1, -snd x + acc !! 2]
+          | fst x == "forward" = go xs [snd x + head acc, last acc * snd x + acc !! 1, last acc] 
+          | otherwise          = go xs acc
 
 main :: IO ()
 main = do
@@ -28,8 +37,9 @@ main = do
   let cmds = map ((\ [x, y] -> (x, read y :: Int)) . words) $ lines text
 
   -- compute part one
-  let out = product . tuple2List . commands $ cmds
-  print out
+  let out0 = product . tuple2List . commands $ cmds
+  print out0
 
   -- compute part two
-  print "part two"
+  let out1 = product . init . commands' $ cmds
+  print out1

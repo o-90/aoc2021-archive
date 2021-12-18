@@ -31,8 +31,6 @@ flipBits :: Int -> Int -> Int
 flipBits n b = n `xor` mask
   where mask = 1 `shiftL` b - 1
 
--- [["00010","00100","00111","01010","01111"],["10000","10101","10110","10111","11001","11100","11110"]]
-
 -- ---------------------------------------------------------------------------
 -- It seems like these two functions could be combined but I don't know
 -- enough about haskell to abstract this yet.
@@ -55,22 +53,12 @@ customGetMax n l = case l of
   _ -> []
 -- ---------------------------------------------------------------------------
 
-{-
-decodeRating :: (Int -> [LBits] -> LBits) -> LBits -> Int -> LBits
-decodeRating f xs nBits = go 0 xs
+decodeRating :: (Int -> [LBits] -> LBits) -> Int -> LBits -> LBits
+decodeRating f nBits xs = go 0 xs
   where go acc xs
           | acc == nBits = xs
-          | otherwise    = go (acc + 1) (decode (acc + 1) xs)
-        decode n = f n . subset
-          where subset = groupBy (\ x y -> x!!n == y!!n) . sort
-
--}
-decodeRating :: Int -> LBits -> LBits
-decodeRating nBits xs = go 0 xs
-  where go acc xs
-          | acc == nBits = xs
-          | otherwise    = go (acc + 1) (decode (acc + 1) xs)
-        decode n l = customGetMax n (groupBy (\ x y -> x!!n == y!!n) . sort $ l)
+          | otherwise    = go (acc + 1) (decode acc xs)
+        decode n l = f n (groupBy (\ x y -> x!!n == y!!n) . sort $ l)
 
 main :: IO ()
 main = do
@@ -86,4 +74,6 @@ main = do
   print $ val0 * val1
 
   -- compute part two
-  print $ decodeRating 1 report
+  let scrRating = binStr2Int . decodeRating customGetMin bits $ report
+  let genRating = binStr2Int . decodeRating customGetMax bits $ report
+  print $ scrRating * genRating

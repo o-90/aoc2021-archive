@@ -6,9 +6,9 @@ import System.Environment
 
 wordsWhen :: (Char -> Bool) -> String -> [String]
 wordsWhen p s = case dropWhile p s of
-  "" -> []
-  s' -> w : wordsWhen p s''
-    where (w, s'') = break p s'
+  ""  -> []
+  str -> w : wordsWhen p strp
+    where (w, strp) = break p str
 
 main :: IO ()
 main = do

@@ -1,8 +1,8 @@
 module Main where
 
+import Data.Bits (xor, shiftL)
+import Data.Char (digitToInt)
 import Data.List
-import Data.Char
-import Data.Bits
 import System.Environment
 
 type LBits = [String]

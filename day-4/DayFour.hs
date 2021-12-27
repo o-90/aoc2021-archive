@@ -1,8 +1,10 @@
 module Main where
 
-import Data.List
-import Control.Monad (replicateM)
+import Data.List.Split (splitOn)
+import Data.List (transpose, (\\))
 import System.Environment
+
+type Bingo = [[Int]]
 
 wordsWhen :: (Char -> Bool) -> String -> [String]
 wordsWhen p s = case dropWhile p s of
@@ -10,12 +12,16 @@ wordsWhen p s = case dropWhile p s of
   str -> w : wordsWhen p strp
     where (w, strp) = break p str
 
+strToIntLst :: String -> [Int]
+strToIntLst = map (\ w -> read w :: Int) . words
+
 main :: IO ()
 main = do
-  text <- getLine
-  print $ map (\ w -> read w :: Int) . wordsWhen (== ',') $ text
-  block <- replicateM 6 getLine
-  let arr_n = map (map (\ w -> read w :: Int) . words) . tail $ block
-  let arr_t = transpose arr_n
-  print arr_n
-  print arr_t
+  [fname] <- getArgs
+  text <- readFile fname
+  let input = splitOn "\n" text
+      nums = map (\ w -> read w :: Int) . wordsWhen (== ',') . head $ input
+      bingo = splitOn [""] . drop 2 $ input
+  print nums
+  print ""
+  print $ filter (/= []) . map (map strToIntLst) $ bingo

@@ -8,5 +8,6 @@ executable run
     main-is:  DayFour.hs
     build-depends:    base ^>=4.14.3.0
                     , split
+                    , containers
     -- hs-source-dirs:   src
     default-language: Haskell2010

@@ -1,10 +1,5 @@
 SHELL := /bin/bash
 
-GHC := ghc
-GHC_FLAGS := -O1
-BIN := run
-SRC := DayFour.hs
-
 build:
 	cabal build
 

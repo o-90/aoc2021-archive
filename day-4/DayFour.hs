@@ -1,10 +1,8 @@
 module Main where
 
-import Data.List.Split (splitOn)
 import Data.List (transpose, (\\))
-import System.Environment
-
-type Bingo = [[Int]]
+import Data.List.Split (splitOn)
+import System.Environment (getArgs)
 
 wordsWhen :: (Char -> Bool) -> String -> [String]
 wordsWhen p s = case dropWhile p s of
@@ -23,5 +21,4 @@ main = do
       nums = map (\ w -> read w :: Int) . wordsWhen (== ',') . head $ input
       bingo = splitOn [""] . drop 2 $ input
   print nums
-  print ""
   print $ filter (/= []) . map (map strToIntLst) $ bingo
